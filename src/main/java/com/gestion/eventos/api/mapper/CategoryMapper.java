@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 public interface CategoryMapper {
 
     CategoryDto toDto(Category category);
-    Category toEntity(Category categoryDto);
+    Category toEntity(CategoryDto categoryDto);
 
 
 
