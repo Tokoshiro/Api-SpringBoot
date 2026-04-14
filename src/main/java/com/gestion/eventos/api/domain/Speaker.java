@@ -31,4 +31,6 @@ public class Speaker {
     @ManyToMany(mappedBy = "speakers")
     private Set<Event> events = new HashSet<>();
 
+
+
 }

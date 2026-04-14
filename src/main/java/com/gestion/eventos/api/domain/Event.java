@@ -31,7 +31,7 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "speakers_id")
     )
-    private Set<Event> speakers = new HashSet<>();
+    private Set<Speaker> speakers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -39,4 +39,15 @@ public class Event {
 
     @ManyToMany(mappedBy = "attendedEvents", fetch = FetchType.LAZY)
     private Set<User> attendes = new HashSet<>();
+
+    public void addSpeaker(Speaker speaker){
+        this.speakers.add(speaker);
+        speaker.getEvents().add(this);
+    }
+
+    public void removeSpeaker(Speaker speaker){
+        this.speakers.remove(speaker);
+        speaker.getEvents().remove(this);
+    }
+
 }
