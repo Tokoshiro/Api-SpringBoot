@@ -38,12 +38,12 @@ public class User {
 
     public void addAttendedEvents(Event event){
         this.attendedEvents.add(event);
-        event.getAttendes().add(this);
+        event.getAttendedUser().add(this);
     }
 
     public void removeAttendedEvents(Event event){
         this.attendedEvents.remove(event);
-        event.getAttendes().remove(this);
+        event.getAttendedUser().remove(this);
     }
 
 }

@@ -38,7 +38,7 @@ public class Event {
     private Category category;
 
     @ManyToMany(mappedBy = "attendedEvents", fetch = FetchType.LAZY)
-    private Set<User> attendes = new HashSet<>();
+    private Set<User> attendedUser = new HashSet<>();
 
     public void addSpeaker(Speaker speaker){
         this.speakers.add(speaker);

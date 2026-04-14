@@ -15,7 +15,7 @@ public interface EventMapper {
 
     //Mapeo de entrada - Request Dto
     @Mapping(target = "category", ignore = true)
-    @Mapping(target = "speaker", ignore = true)
+    @Mapping(target = "speakers", ignore = true)
     @Mapping(target = "attendedUser", ignore = true)
     Event toEntity(EventRequestDto eventRequestDto);
 
@@ -26,7 +26,7 @@ public interface EventMapper {
     //Metodo para actualizar una Entidad Existente
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "category", ignore = true)
-    @Mapping(target = "speaker", ignore = true)
+    @Mapping(target = "speakers", ignore = true)
     @Mapping(target = "attendedUser", ignore = true)
     void updateEventFromDto(EventRequestDto dto, @MappingTarget Event event);
 
