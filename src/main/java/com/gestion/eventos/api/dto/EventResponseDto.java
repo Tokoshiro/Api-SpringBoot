@@ -14,5 +14,5 @@ public class EventResponseDto {
     private LocalDate date;
     private String location;
     private Category category;
-    private List<SpeakerDto> speakerDtos;
+    private List<SpeakerResponseDto> speakerDtos;
 }
