@@ -2,6 +2,8 @@ package com.gestion.eventos.api.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -31,6 +33,8 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "speakers_id")
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Speaker> speakers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,6 +42,8 @@ public class Event {
     private Category category;
 
     @ManyToMany(mappedBy = "attendedEvents", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<User> attendedUser = new HashSet<>();
 
     public void addSpeaker(Speaker speaker){
