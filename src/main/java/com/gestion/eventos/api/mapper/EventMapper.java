@@ -23,7 +23,7 @@ public interface EventMapper {
     //Mapeo de salida - Request Dto
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "categoryName", source = "category.name")
-    @Mapping(target = "Speakers", source = "speakers")
+    @Mapping(target = "speakers", source = "speakers")
     EventResponseDto toResponseDto(Event event);
     List<EventResponseDto> toEventResponseDtoList(List<Event> events);
 

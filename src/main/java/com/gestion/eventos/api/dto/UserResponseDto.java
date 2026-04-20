@@ -1,7 +1,10 @@
 package com.gestion.eventos.api.dto;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class UserResponseDto {
 
     private Long id;
