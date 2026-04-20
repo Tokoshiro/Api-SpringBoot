@@ -1,22 +1,15 @@
 package com.gestion.eventos.api.data;
 
-import com.gestion.eventos.api.domain.Category;
-import com.gestion.eventos.api.domain.Role;
-import com.gestion.eventos.api.domain.Speaker;
-import com.gestion.eventos.api.domain.User;
-import com.gestion.eventos.api.repository.CategoryRepository;
-import com.gestion.eventos.api.repository.RoleRepository;
-import com.gestion.eventos.api.repository.SpeakerRepository;
-import com.gestion.eventos.api.repository.UserRepository;
+import com.gestion.eventos.api.domain.*;
+import com.gestion.eventos.api.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -27,11 +20,14 @@ public class DataLoader implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final CategoryRepository categoryRepository;
     private final SpeakerRepository speakerRepository;
+    private final EventRepository eventRepository; // ¡Inyecta el EventRepository!
+
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
 
+        // --- LÓGICA EXISTENTE PARA ROLES Y USUARIOS ---
         Role adminRole = roleRepository.findByName("ROLE_ADMIN")
                 .orElseGet( () -> {
                     Role newRole = new Role();
@@ -46,63 +42,117 @@ public class DataLoader implements CommandLineRunner {
                     return roleRepository.save(newRole);
                 });
 
-        // --- 2. Crear un usuario ADMIN si no existe ---
-        if (!userRepository.existsByUsername("admin")) {
+        if(userRepository.findByUsername("admin").isEmpty()){
             User admin = new User();
-            admin.setName("Admin User");
+            admin.setName("Administrador");
             admin.setUsername("admin");
             admin.setEmail("admin@example.com");
-            admin.setPassword(passwordEncoder.encode("admin"));
-            admin.setRoles(new HashSet<>(Collections.singletonList(adminRole)));
+            admin.setPassword(passwordEncoder.encode("admin1234"));
+
+            Set<Role> adminRoles = new HashSet<>();
+            adminRoles.add(adminRole);
+            adminRoles.add(userRole);
+
+            admin.setRoles(adminRoles);
+
             userRepository.save(admin);
+            System.out.println("Usuario 'admin' creado.");
         }
 
-        // --- 3. Crear un usuario USER si no existe ---
-        if (!userRepository.existsByUsername("user")) {
-            User user = new User();
-            user.setName("Regular User");
-            user.setUsername("user");
-            user.setEmail("user@example.com");
-            user.setPassword(passwordEncoder.encode("user"));
-            user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
-            userRepository.save(user);
+        if (userRepository.findByUsername("user").isEmpty()) {
+            User regularUser = new User();
+            regularUser.setName("Usuario Normal");
+            regularUser.setUsername("user");
+            regularUser.setEmail("user@example.com");
+            regularUser.setPassword(passwordEncoder.encode("123456"));
+
+            Set<Role> userRoles = new HashSet<>();
+            userRoles.add(userRole);
+            regularUser.setRoles(userRoles);
+
+            userRepository.save(regularUser);
+            System.out.println("Usuario 'user' creado.");
         }
 
-        // --- 4. Crear y Guardar Categorías si no existen ---
-        if (!categoryRepository.existsByName("Conferencia")) {
-            Category conferencia = new Category(null, "Conferencia", "Eventos de gran escala con múltiples oradores.");
-            categoryRepository.save(conferencia);
-        }
-        if (!categoryRepository.existsByName("Taller")) {
-            Category taller = new Category(null, "Taller", "Eventos interactivos y prácticos.");
-            categoryRepository.save(taller);
-        }
-        if (!categoryRepository.existsByName("Webinar")) {
-            Category webinar = new Category(null, "Webinar", "Seminarios online en vivo.");
-            categoryRepository.save(webinar);
-        }
+        // --- LÓGICA EXISTENTE PARA CATEGORÍAS ---
+        Category conferencia = categoryRepository.findByName("Conferencia")
+                .orElseGet(() -> {
+                    Category newCat = new Category(null, "Conferencia", "Eventos de gran escala con múltiples oradores.");
+                    return categoryRepository.save(newCat);
+                });
+        Category taller = categoryRepository.findByName("Taller")
+                .orElseGet(() -> {
+                    Category newCat = new Category(null, "Taller", "Eventos interactivos y prácticos.");
+                    return categoryRepository.save(newCat);
+                });
+        Category webinar = categoryRepository.findByName("Webinar")
+                .orElseGet(() -> {
+                    Category newCat = new Category(null, "Webinar", "Seminarios online en vivo.");
+                    return categoryRepository.save(newCat);
+                });
+        // --- También puedes usar existsByName para verificar antes de crear como lo tenías.
+        // --- Lo he cambiado a findByName().orElseGet() para obtener las instancias guardadas
+        // --- que necesitaremos para los eventos.
 
-        // --- 5. Crear y Guardar Oradores si no existen ---
-        if (!speakerRepository.existsByEmail("john.doe@example.com")) {
-            Speaker john = new Speaker(null, "John Doe", "john.doe@example.com", "Experto en desarrollo de software.", new HashSet<>());
-            speakerRepository.save(john);
-        }
-        if (!speakerRepository.existsByEmail("jane.smith@example.com")) {
-            Speaker jane = new Speaker(null, "Jane Smith", "jane.smith@example.com", "Especialista en marketing digital.", new HashSet<>());
-            speakerRepository.save(jane);
+
+        // --- LÓGICA EXISTENTE PARA ORADORES ---
+        Speaker john = speakerRepository.findByEmail("john.doe@example.com")
+                .orElseGet(() -> {
+                    Speaker newSpeaker = new Speaker(null, "John Doe", "john.doe@example.com", "Experto en desarrollo de software.", new HashSet<>());
+                    return speakerRepository.save(newSpeaker);
+                });
+        Speaker jane = speakerRepository.findByEmail("jane.smith@example.com")
+                .orElseGet(() -> {
+                    Speaker newSpeaker = new Speaker(null, "Jane Smith", "jane.smith@example.com", "Especialista en marketing digital.", new HashSet<>());
+                    return speakerRepository.save(newSpeaker);
+                });
+        // Asegúrate de que los repositorios de Category y Speaker tengan métodos findByName y findByEmail respectivamente.
+        // Si no los tienen, añádelos:
+        // CategoryRepository: Optional<Category> findByName(String name);
+        // SpeakerRepository: Optional<Speaker> findByEmail(String email);
+
+
+        // --- NUEVA LÓGICA PARA CREAR Y GUARDAR EVENTOS ---
+        if (eventRepository.count() == 0) { // Solo cargar eventos si la tabla está vacía
+            List<Event> events = new ArrayList<>();
+            LocalDate baseDate = LocalDate.now();
+
+            for (int i = 1; i <= 60; i++) { // Cambia 60 al número deseado de eventos
+                Event event = new Event();
+                event.setName("Evento " + (i < 10 ? "0" + i : i) + ": Conferencia de Tecnología " + (i % 5 + 1));
+                event.setDate(baseDate.plusDays(i)); // Fechas futuras
+                event.setLocation("Sala " + (i % 10 + 1)); // 10 localizaciones diferentes
+
+                // Asignar una categoría
+                if (i % 3 == 0) {
+                    event.setCategory(conferencia);
+                } else if (i % 3 == 1) {
+                    event.setCategory(taller);
+                } else {
+                    event.setCategory(webinar);
+                }
+
+                // Asignar al menos un orador
+                if (i % 2 == 0) {
+                    event.addSpeaker(john); // Usamos el método addSpeaker para manejar la relación
+                } else {
+                    event.addSpeaker(jane);
+                }
+                // Si quieres que algunos tengan ambos oradores:
+                if (i % 5 == 0) {
+                    event.addSpeaker(john);
+                    event.addSpeaker(jane);
+                }
+
+
+                events.add(event);
+            }
+
+            eventRepository.saveAll(events);
+            System.out.println("Cargados " + events.size() + " eventos de prueba en la base de datos.");
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
