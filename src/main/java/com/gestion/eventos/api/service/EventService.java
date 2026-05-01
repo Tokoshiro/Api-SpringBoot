@@ -3,6 +3,7 @@ package com.gestion.eventos.api.service;
 import com.gestion.eventos.api.domain.Category;
 import com.gestion.eventos.api.domain.Event;
 import com.gestion.eventos.api.domain.Speaker;
+import com.gestion.eventos.api.domain.User;
 import com.gestion.eventos.api.dto.EventRequestDto;
 import com.gestion.eventos.api.dto.EventResponseDto;
 import com.gestion.eventos.api.exception.ResourceNotFoundException;
@@ -161,6 +162,40 @@ public class EventService implements IEventService{
 
         return events;
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<Event> findAllEventsWithAllDetailsOptimized() {
+        System.out.println("\n--- DEMO: findAllWithAllDetails (@EntityGraph con Category, Speakers, AttendedUsers) ---");
+
+        List<Event> events = eventRepository.findAllWithAllDetails();
+
+        events.forEach(event -> {
+
+                    System.out.println("Event ID: " + event.getId());
+                    System.out.println("Event Name: " + event.getName());
+
+                    if (event.getCategory() != null) {
+                        System.out.println("  Category: " + event.getCategory().getName());
+                    } else {
+                        System.out.println("  Category: N/A");
+                    }
+
+                    if (event.getSpeakers() != null && !event.getSpeakers().isEmpty()) {
+                        System.out.println("  Speakers: " + event.getSpeakers().stream().map(Speaker::getName).collect(Collectors.joining(", ")));
+                    } else {
+                        System.out.println("  Speakers: N/A");
+                    }
+
+                    if (event.getAttendedUser() != null && !event.getAttendedUser().isEmpty()) {
+                        System.out.println("  Attended Users: " + event.getAttendedUser().stream().map(User::getUsername).collect(Collectors.joining(", ")));
+                    } else {
+                        System.out.println("  Attended Users: N/A");
+                    }
+                    System.out.println("---");
+                }
+        );
+        return events;
     }
 
 

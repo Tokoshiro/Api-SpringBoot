@@ -17,5 +17,6 @@ public interface IEventService {
     void deleteById(Long id);
     List<Event> getAllEventsAndTheirDetailsProblematic();
     List<Event> getAllEventsAndTheirDetailsOptimizedWithJoinFetch();
+    List<Event> findAllEventsWithAllDetailsOptimized();
 
 }

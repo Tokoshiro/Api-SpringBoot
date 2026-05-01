@@ -28,6 +28,7 @@ public class EventController {
 
 
     @GetMapping("/problematic")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<Event>> getAllEventsProblematic(){
 
         List<Event> events = eventService.getAllEventsAndTheirDetailsProblematic();
@@ -36,10 +37,19 @@ public class EventController {
     }
 
     @GetMapping("/optimized-join-fetch")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<Event>> getAllEventsOptimizedWithJoinFetch(){
 
         List<Event> events = eventService.getAllEventsAndTheirDetailsOptimizedWithJoinFetch();
 
+        return ResponseEntity.ok(events);
+    }
+
+
+    @GetMapping("/optimized/all-details")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<List<Event>> getAllEventsWithAllDetails() {
+        List<Event> events = eventService.findAllEventsWithAllDetailsOptimized();
         return ResponseEntity.ok(events);
     }
 
