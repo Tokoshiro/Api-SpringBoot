@@ -142,5 +142,26 @@ public class EventService implements IEventService{
         return events;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Event> getAllEventsAndTheirDetailsOptimizedWithJoinFetch() {
+
+        List<Event> events = eventRepository.findAllWithCategoryAndSpeaker();
+
+        events.forEach( event -> {
+
+            System.out.println("Event: "+ event.getName());
+            System.out.println("Category: "+ event.getCategory().getName());
+            System.out.println("Speaker: "+ event.getSpeakers()
+                    .stream().map(Speaker::getName)
+                    .collect(Collectors.joining(", "))
+            );
+
+        } );
+
+        return events;
+
+    }
+
 
 }
