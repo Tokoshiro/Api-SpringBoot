@@ -125,5 +125,22 @@ public class EventService implements IEventService{
         eventRepository.delete(eventToDelete);
     }
 
+    @Transactional(readOnly = true)
+    public List<Event> getAllEventsAndTheirDetailsProblematic(){
+
+        List<Event> events = eventRepository.findAll();
+
+        events.forEach( event -> {
+
+            event.getSpeakers().size();
+            event.getSpeakers().stream().map(Speaker::getName).collect(Collectors.toSet());
+            event.getCategory().getName();
+            event.getAttendedUser().size();
+
+        } );
+
+        return events;
+    }
+
 
 }
