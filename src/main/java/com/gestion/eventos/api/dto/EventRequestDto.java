@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @Schema(description = "Detalles de la solicitud para crear/actualizar un evento")
 public class EventRequestDto {
-    @Schema(description = "Nombre del evento", example = "Conferencia de SpringBoot")
+    @Schema(description = "Nombre del evento", example = "Conferencia de Spring Boot")
     @NotBlank(message = "El nombre del evento no puede estar vacío.")
     private String name;
 
@@ -24,8 +24,5 @@ public class EventRequestDto {
     @NotNull(message = "La categoría es obligatoria.")
     private Long categoryId;
 
-
     private Set<Long> speakersIds;
-
 }
-

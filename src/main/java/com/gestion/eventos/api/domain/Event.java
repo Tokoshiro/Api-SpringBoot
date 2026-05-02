@@ -14,15 +14,14 @@ import java.util.Set;
 @Table(name = "events" )
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDate date; // Usamos LocalDate para representar solo la fecha
 
     @Column(nullable = false)
     private String location;
@@ -44,16 +43,35 @@ public class Event {
     @ManyToMany(mappedBy = "attendedEvents", fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<User> attendedUser = new HashSet<>();
+    private Set<User> attendedUsers = new HashSet<>();
 
-    public void addSpeaker(Speaker speaker){
+    public void addSpeaker(Speaker speaker) {
         this.speakers.add(speaker);
         speaker.getEvents().add(this);
     }
 
-    public void removeSpeaker(Speaker speaker){
+    public void removeSpeaker(Speaker speaker) {
         this.speakers.remove(speaker);
         speaker.getEvents().remove(this);
     }
 
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+

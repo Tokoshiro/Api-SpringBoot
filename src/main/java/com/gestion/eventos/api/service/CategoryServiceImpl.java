@@ -8,18 +8,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
 
-
     @Override
     @Transactional(readOnly = true)
     public List<Category> findAll() {
         return categoryRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Category findById(Long id) {
+        return categoryRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Categoría no encontrada con id: " + id)
+        );
     }
 
     @Override
@@ -33,8 +39,7 @@ public class CategoryServiceImpl implements CategoryService{
     public Category update(Long id, Category category) {
 
         Category existingCategory = categoryRepository.findById(id)
-                .orElseThrow( () -> new ResourceNotFoundException("Categoría no encontrada con ID: " + id)
-                );
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + id));
 
         existingCategory.setName(category.getName());
         existingCategory.setDescription(category.getDescription());
@@ -43,22 +48,22 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Category findById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Categoría no encontrada con ID: "+ id)
-        );
-    }
-
-    @Override
     @Transactional
     public void deleteById(Long id) {
-
-        if (!categoryRepository.existsById(id)){
-            throw new ResourceNotFoundException("Categoria no encontrada con ID: " + id);
+        if (!categoryRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Categoría no encontrada con ID: " + id); // EN ESPAÑOL
         }
-
         categoryRepository.deleteById(id);
-    }
 
+    }
 }
+
+
+
+
+
+
+
+
+
+

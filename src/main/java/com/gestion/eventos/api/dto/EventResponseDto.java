@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Data
 public class EventResponseDto {
-
     private Long id;
     private String name;
     private LocalDate date;
@@ -17,4 +16,5 @@ public class EventResponseDto {
     private String categoryName;
 
     private Set<SpeakerResponseDto> speakers;
+
 }

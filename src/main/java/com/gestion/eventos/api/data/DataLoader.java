@@ -1,7 +1,16 @@
+// src/main/java/com/gestion/eventos/api/data/DataLoader.java
 package com.gestion.eventos.api.data;
 
-import com.gestion.eventos.api.domain.*;
-import com.gestion.eventos.api.repository.*;
+import com.gestion.eventos.api.domain.Category;
+import com.gestion.eventos.api.domain.Role;
+import com.gestion.eventos.api.domain.Speaker;
+import com.gestion.eventos.api.domain.User;
+import com.gestion.eventos.api.domain.Event; // ¡Importa la entidad Event!
+import com.gestion.eventos.api.repository.CategoryRepository;
+import com.gestion.eventos.api.repository.EventRepository; // ¡Importa el EventRepository!
+import com.gestion.eventos.api.repository.RoleRepository;
+import com.gestion.eventos.api.repository.SpeakerRepository;
+import com.gestion.eventos.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,7 +18,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -153,12 +165,3 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 }
-
-
-
-
-
-
-
-
-

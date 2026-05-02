@@ -42,16 +42,16 @@ public class User {
     @JsonIgnore
     private Set<Event> attendedEvents = new HashSet<>();
 
-    public void addAttendedEvents(Event event){
+
+    public void addAttendedEvent(Event event){
         this.attendedEvents.add(event);
-        event.getAttendedUser().add(this);
+        event.getAttendedUsers().add(this);
     }
 
-    public void removeAttendedEvents(Event event){
+    public void removeAttendedEvent(Event event){
         this.attendedEvents.remove(event);
-        event.getAttendedUser().remove(this);
+        event.getAttendedUsers().remove(this);
     }
-
 }
 
 

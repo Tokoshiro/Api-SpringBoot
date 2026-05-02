@@ -10,17 +10,15 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 public class OpenApiConfig {
 
-    private static final String SCHEME_NAME ="bearerAuth";
+    private static final String SCHEME_NAME = "bearerAuth";
     private static final String BEARER_FORMAT = "JWT";
-    private static final String DESCRIPTION ="JWT Authentication para la API eventos";
+    private static final String DESCRIPTION = "JWT Authentication para la API de Eventos";
 
     @Bean
     public OpenAPI customOpenAPI(){
-
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList(SCHEME_NAME))
                 .components(new Components()
@@ -32,7 +30,6 @@ public class OpenApiConfig {
                                         .bearerFormat(BEARER_FORMAT)
                                         .in(SecurityScheme.In.HEADER)
                                         .description(DESCRIPTION)
-
                                 )
                 )
                 .info(new Info()
@@ -40,15 +37,14 @@ public class OpenApiConfig {
                         .version("1.0")
                         .description("API RESTful para la gestión de eventos, categorías y ponentes")
                         .contact(new Contact()
-                                .name("Gaaato")
-                                .email("algo@email.com")
-                                .url("tuURSL.com"))
+                                .name("gaaato")
+                                .email("algo@gmail.com")
+                                .url("https://tuportfolio.com"))
                         .license(new License()
                                 .name("Apache 2.0")
-                                .url("apache.org/licenses/LICENSE-2.9.html")
+                                .url("http://www.apache.org/licenses/LICENSE-2.0.html")
                         )
                 );
-
     }
 
 }

@@ -8,20 +8,18 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-
     Page<Event> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
-    @Query("Select e from Event e Join Fetch e.category Left Join Fetch e.speakers")
-    List<Event> findAllWithCategoryAndSpeaker();
+    @Query("SELECT e FROM Event e JOIN FETCH e.category LEFT JOIN FETCH e.speakers")
+    List<Event> findAllWithCategoryAndSpeakers();
 
-    @Query("Select e from Event e Join Fetch e.category Left Join Fetch e.speakers Where e.id = :id")
-    Optional<Event> findByIdWithCategoryAndSpeaker(Long id);
+    @Query("SELECT e FROM Event e JOIN FETCH e.category LEFT JOIN FETCH e.speakers WHERE e.id = :id")
+    Optional<Event> findByIdWithCategoryAndSpeakers(Long id);
 
     @Override
     @NonNull
@@ -34,8 +32,18 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Optional<Event> findById(Long id);
 
     @EntityGraph(attributePaths = {"category", "speakers", "attendedUsers"})
-    @Query("Select e From Event e")
+    @Query("SELECT e FROM Event e")
     List<Event> findAllWithAllDetails();
+
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface IEventService {
 
+public interface IEventService {
     Page<EventResponseDto> findAll(String name, Pageable pageable);
     Event save(EventRequestDto event);
     Event findById(Long id);
@@ -18,5 +18,4 @@ public interface IEventService {
     List<Event> getAllEventsAndTheirDetailsProblematic();
     List<Event> getAllEventsAndTheirDetailsOptimizedWithJoinFetch();
     List<Event> findAllEventsWithAllDetailsOptimized();
-
 }

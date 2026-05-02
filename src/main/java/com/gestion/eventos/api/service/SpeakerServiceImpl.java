@@ -18,22 +18,18 @@ public class SpeakerServiceImpl implements SpeakerService{
     private final SpeakerRepository speakerRepository;
     private final SpeakerMapper speakerMapper;
 
-
     @Override
     @Transactional
     public Speaker save(SpeakerRequestDto requestDto) {
-
         Speaker speaker = speakerMapper.toEntity(requestDto);
-
         return speakerRepository.save(speaker);
     }
-
 
     @Override
     @Transactional(readOnly = true)
     public Speaker findById(Long id) {
         return speakerRepository.findById(id)
-                .orElseThrow( () -> new ResourceNotFoundException("Ponente no encontrado con ID: "+ id));
+                .orElseThrow( () -> new ResourceNotFoundException("Ponente no encontrado con ID: " + id));
     }
 
     @Override
@@ -45,23 +41,20 @@ public class SpeakerServiceImpl implements SpeakerService{
     @Override
     @Transactional
     public Speaker update(Long id, SpeakerRequestDto requestDto) {
+        Speaker existingSpeaker = speakerRepository.findById(id)
+                .orElseThrow( () -> new ResourceNotFoundException("Ponente no encontrado con ID: " + id));
 
-        Speaker existtingSpeaker = speakerRepository.findById(id)
-                .orElseThrow( () -> new ResourceNotFoundException("Ponente no encontrado con ID: "+ id));
-
-        speakerMapper.updateSpeakerFromDto(requestDto, existtingSpeaker);
-
-        return speakerRepository.save(existtingSpeaker);
+        speakerMapper.updateSpeakerFromDto(requestDto, existingSpeaker);
+        return speakerRepository.save(existingSpeaker);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void deleteById(Long id) {
 
-        if (!speakerRepository.existsById(id)){
-            throw new ResourceNotFoundException("Ponente no encontrado con ID: "+ id);
+        if(!speakerRepository.existsById(id)){
+            throw new ResourceNotFoundException("Ponente no encontrado con ID: " + id);
         }
-
         speakerRepository.deleteById(id);
 
     }

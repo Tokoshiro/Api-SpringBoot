@@ -26,30 +26,27 @@ public abstract class UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", source = "registerDto.roles", qualifiedByName = "mapRoleStringsToRoles")
     @Mapping(target = "attendedEvents", ignore = true)
-    public abstract User registerDtoToUser(RegisterDto registerDto);
+    public  abstract User registerDtoToUser(RegisterDto registerDto);
 
-    public abstract UserResponseDto touserResponseDto(User user);
+    public abstract UserResponseDto toUserResponseDto(User user);
     public abstract List<UserResponseDto> toUserResponseDtoList(List<User> users);
 
     @Named("mapRoleStringsToRoles")
-    public Set<Role> mapRoleStringsToRoles(Set<String> roleNames){
+    public Set<Role> mapRoleStringsToRoles(Set<String> roleNames) {
 
-        if (roleNames==null || roleNames.isEmpty()){
+        if (roleNames == null || roleNames.isEmpty()) {
             return roleRepository.findByName("ROLE_USER")
                     .map(Collections::singleton)
                     .orElseThrow(
-                            () -> new ResourceNotFoundException("Error: Rol 'ROLE_USER' no encontrado en la base de datos. "
-                            + "Asegúrate de que el rol ROLE_USER exista al iniciar la apliación.")
+                            () -> new ResourceNotFoundException("Error: Rol 'ROLE_USER' no encontrado en la base de datos. " +
+                                    "Asegúrate de que el rol ROLE_USER exista al iniciar la aplicación.")
                     );
         }
 
         return roleNames.stream()
-                .map(
-                        roleName -> roleRepository.findByName(roleName)
-                                .orElseThrow(
-                                        () -> new ResourceNotFoundException("Error: Rol no encontrado: " + roleName)
-                                )
-                ).collect(Collectors.toSet());
+                .map(roleName -> roleRepository.findByName(roleName)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException("Error: Rol no encontrado: " + roleName)))
+                .collect(Collectors.toSet());
     }
-
 }

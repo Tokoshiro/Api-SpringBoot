@@ -6,7 +6,6 @@ import java.util.List;
 
 @Data
 public class UserResponseDto {
-
     private Long id;
     private String name;
     private String username;
@@ -14,5 +13,4 @@ public class UserResponseDto {
 
     private List<RoleDto> roles;
     private List<EventSummaryDto> attendedEvents;
-
 }

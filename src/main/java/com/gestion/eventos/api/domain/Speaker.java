@@ -24,7 +24,6 @@ public class Speaker {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(length = 500)
     private String bio;
 
     @ManyToMany(mappedBy = "speakers")
@@ -32,5 +31,13 @@ public class Speaker {
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private Set<Event> events = new HashSet<>();
-
 }
+
+
+
+
+
+
+
+
+

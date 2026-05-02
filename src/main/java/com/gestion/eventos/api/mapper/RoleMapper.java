@@ -8,9 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
-
     RoleDto toDto(Role role);
-    Role toEntity(Role roleDto);
-    List<RoleDto> toDtoList(List<Role> roles); // Pra userResponseDto
-
+    Role toEntity(RoleDto roleDto);
+    List<RoleDto> toDtoList(List<Role> roles); // Para UserResponseDto
 }
