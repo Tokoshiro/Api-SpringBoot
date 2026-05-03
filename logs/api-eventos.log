@@ -31,3 +31,6 @@
 2026-05-02 19:28:42.619 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
 2026-05-02 19:28:42.637 WARN  o.s.w.s.h.HandlerMappingIntrospector - Cache miss for REQUEST dispatch to '/swagger-ui/index.html' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
 2026-05-02 19:28:44.133 INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 700 ms
+2026-05-02 21:10:47.790 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-02 21:10:47.793 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-02 21:10:47.797 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
